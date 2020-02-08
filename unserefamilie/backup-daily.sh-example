@@ -1,0 +1,4 @@
+#! /bin/bash
+
+docker run --rm -v /home/user/docker/unserefamilie/unserefamilie/data/db:/backup --link unserefamilie_db_1:db --entrypoint=/bin/bash -e "PGPASSWORD=password" unserefamilie_postgis -c "pg_dumpall -U djfu -h db > /backup/db`date +%d`.sql"
+

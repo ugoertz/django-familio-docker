@@ -1,0 +1,82 @@
+# Install everything that needs to be compiled
+
+# Database adapter (PostgreSQL)
+psycopg2-binary==2.8.3
+
+# for bcrypt passwords
+bcrypt==3.1.7
+# Django stuff
+Django==2.1.13
+
+django-appconf==1.0.3
+django-compressor==2.3
+django-debug-toolbar==2.0
+django-extensions==2.2.5
+django-markup==1.4.1
+django-reversion==3.0.4
+django-taggit==1.1.0
+django-transfer==0.4
+
+django-watson==1.5.3
+
+django-filebrowser==3.11.1
+django-grappelli==2.12.3
+easy-thumbnails==2.6
+
+# Templates
+Markdown==3.1.1
+docutils==0.15.2
+typogrify==2.0.7
+django-crispy-forms==1.7.2
+
+# Security
+bleach==3.1.0
+
+# L10n/i18n
+Babel==2.7.0
+
+# Caching
+# python-memcached
+
+# Geo stuff
+geopy==1.20.0
+django-leaflet==0.25.0
+django-geojson==2.12.0
+
+# Admin
+Werkzeug==0.16.0
+ipython==7.9.0
+
+django-guardian==2.1.0
+django-userena-ce==4.1.1
+
+Pillow==6.2.1
+cairocffi==1.1.0
+cffi==1.13.2
+
+Sphinx==2.2.1
+alabaster==0.7.12
+sphinx-rtd-theme==0.4.3
+Pygments==2.4.2
+
+pybbm==0.19.0
+django-annoying==0.10.5
+
+MarkupSafe==1.1.1
+Jinja2==2.10.3
+pycparser==2.19
+html2text==2019.9.26
+html5lib==1.0.1
+pytz==2019.3
+six==1.12.0
+smartypants==2.0.1
+snowballstemmer==2.0.0
+sqlparse==0.3.0
+
+celery==4.3.0
+amqp==2.5.1
+
+pyinotify==0.9.6
+
+pyclamd==0.4.0
+

@@ -1,0 +1,7 @@
+*.pyc
+unserefamilie/data
+docker-celery/ffmpeg
+docker-clamav
+docker-compose.yml
+backup-*.sh
+
