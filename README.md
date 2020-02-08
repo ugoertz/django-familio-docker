@@ -1,7 +1,8 @@
 These are docker files for the [Django Familio](https://github.com/ugoertz/django-familio) project.
 
 Copy the docker-compose.yml-example file to docker-compose.yml and adapt it
-according to your requirements/setup. Similarly for the backup-*.sh-example
+according to your requirements/setup. **It is important to set appropriate
+SECRET_KEY's and passwords here!** Similarly for the backup-*.sh-example
 files.
 
 The directory structure I use is the following:
@@ -33,7 +34,7 @@ The directory structure I use is the following:
     └── docker-compose.yml-example
 
 Here data/src/django-familio contains the Django Familio git repository. Inside
-tthe data/media directory, the prefix numbers 1_, 2_, ... relate to the
+the data/media directory, the prefix numbers 1_, 2_, ... relate to the
 individual families/django sites (cf. below).
 
 Some further remarks on the docker containers that are used in the
