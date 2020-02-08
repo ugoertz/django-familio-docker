@@ -6,7 +6,7 @@ psycopg2-binary==2.8.3
 # for bcrypt passwords
 bcrypt==3.1.7
 # Django stuff
-Django==2.1.13
+Django==2.1.15
 
 django-appconf==1.0.3
 django-compressor==2.3
