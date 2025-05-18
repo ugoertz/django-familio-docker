@@ -1,7 +1,7 @@
 *.pyc
 unserefamilie/data
 docker-celery/ffmpeg
-docker-clamav
+docker-celery/phantomjs
 docker-compose.yml
 backup-*.sh
 
