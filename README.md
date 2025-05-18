@@ -42,10 +42,6 @@ docker-compose.yml file:
 
 * db: The database, a postgres instance with the postgis extension.
 * clamav: a virus scanner; build the docker file from https://github.com/UKHomeOffice/docker-clamav.git
-* djangodata: a docker container which holds the data volumes, so that we can
-    access them from all other containers by just linking to this one. This
-    container does not have to run, so after setting everything up you can stop
-    it and comment out those lines in the docker compose file.
 * family1 (, family2, ...): For each family within your instance, run one
     container. All families share the same database, but for most items
     (persons, fotos, ...), permissions can be set which control which family can

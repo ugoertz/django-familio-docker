@@ -1,0 +1,33 @@
+{
+  "users": [
+      {
+          "name": "ug",
+          "password": "iorncfiwnrijfnekjlTUCC",
+          "tags": "administrator"
+      }
+  ],
+  "vhosts": [
+    {
+      "name": "goertz"
+    },
+    {
+      "name": "giese"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "ug",
+      "vhost": "goertz",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "ug",
+      "vhost": "giese",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ]
+}

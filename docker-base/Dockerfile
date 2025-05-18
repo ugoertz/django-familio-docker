@@ -1,7 +1,7 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:noble-1.0.2
 MAINTAINER Ulrich Goertz "ug@geometry.de"
 
-ENV REFRESHED_AT 2019-10-01
+ENV REFRESHED_AT 2025-05-09
 
 RUN apt-get update
 RUN apt-get install -y sudo build-essential git gettext
@@ -19,9 +19,9 @@ RUN apt-get install -y binutils libproj-dev gdal-bin
 # RUN dpkg -i /var/packages/pandoc-1.16.0.2-1-amd64.deb
 
 ADD requirements /var/config/requirements/
-RUN pip3 install --upgrade pip
-RUN pip3 install uwsgi pyopenssl ndg-httpsclient pyasn1
-RUN pip3 install -r /var/config/requirements/production.txt
+RUN pip3 install --break-system-packages uwsgi pyopenssl ndg-httpsclient pyasn1
+RUN pip3 install --break-system-packages -r /var/config/requirements/production.txt
+RUN pip3 install --break-system-packages -U django-grappelli
 
 RUN mkdir -p /var/django/media
 RUN mkdir -p /var/log/django
