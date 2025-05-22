@@ -1,90 +1,65 @@
-db:
-    image: unserefamilie_postgis
+services:
+
+  db:
+    image: postgis/postgis:17-3.5
     environment:
-        - POSTGRES_DB=djfdb
-        - POSTGRES_PASSWORD=djf
-        - POSTGRES_USER=djfu
+      - POSTGRES_DB=djfdb
+      - POSTGRES_PASSWORD=djf
+      - POSTGRES_USER=djfu
+      - POSTGRES_INITDB_ARGS="--auth-host=scram-sha-256"
     restart: always
 
-clamav:
-    # built from https://github.com/UKHomeOffice/docker-clamav.git
-    image: unserefamilie_clamav
+  rabbit:
+    image: rabbitmq:4.1.0
+    hostname: uf_rabbit
     restart: always
-    volumes_from:
-        - unserefamilie_djangodata_1
+    environment:
+      - RABBITMQ_NODENAME=uf-rabbit
+      - RABBITMQ_DEFAULT_USER=rabbituser
+      - RABBITMQ_DEFAULT_PASS=abcd
+    volumes:
+      - ./config/rabbit-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./config/rabbit-definitions.json:/etc/rabbitmq/definitions.json:ro
+    ports:
+        - "127.0.0.1:5672:5672"
 
+  clamav:
+    image: clamav/clamav:1.4.2
+    restart: always
+    volumes:
+      - ./data/src/django-familio:/var/django/familio
+      - ./data/media:/var/django/media
 
-# # docker container to hold data volumes
-# djangodata:
-#     image: unserefamilie_data
-#     environment:
-#         - DJANGO_PROJECT_NAME=familio
-#         - DJANGO_SETTINGS_MODULE=familio.settings.family1
-#         - SITE_NAME=family1
-#         - SITE_ID=1
-#         - SECRET_KEY=44
-#         - POSTGRES_HOST=db
-#         - POSTGRES_DB=djfdb
-#         - POSTGRES_PASSWORD=djf
-#         - POSTGRES_USER=djfu
-#     links:
-#         - db:db
-#     volumes:
-#         - ./data/src/django-familio:/var/django/familio
-#         - ./data/media:/var/django/media
-
-
-celery1:
+  celery1:
     image: unserefamilie_celery
     environment:
-        - DJANGO_PROJECT_NAME=familio
-        - CELERY_BROKER_URL=amqp://user:password@rabbit.example.com/instance1
-        - DJANGO_SETTINGS_MODULE=familio.settings.family1
-        - SITE_NAME=family1
-        - SITE_ID=1
-        - SECRET_KEY=44
-        - PHANTOMJS_USERNAME=user
-        - PHANTOMJS_PASSWORD=password
-        - POSTGRES_USER=djfu
-        - POSTGRES_DB=djfdb
-        - POSTGRES_PASSWORD=djf
-        - POSTGRES_HOST=db
-        - LANG=en_US.UTF-8
-        - LC_ALL=en_US.UTF-8
+      - DJANGO_PROJECT_NAME=familio
+      - CELERY_BROKER_URL=amqp://rabbituser:abcd@rabbit/instance1
+      - DJANGO_SETTINGS_MODULE=familio.settings.family1
+      - SITE_NAME=family1
+      - SITE_ID=1
+      - SECRET_KEY=44
+      - PHANTOMJS_USERNAME=user
+      - PHANTOMJS_PASSWORD=password
+      - POSTGRES_USER=djfu
+      - POSTGRES_DB=djfdb
+      - POSTGRES_PASSWORD=djf
+      - POSTGRES_HOST=db
+      - LANG=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
     restart: always
     links:
         - db:db
-    volumes_from:
-        - unserefamilie_djangodata_1
+    volumes:
+      - ./data/src/django-familio:/var/django/familio
+      - ./data/media:/var/django/media
 
-# celery2:
-#     image: unserefamilie_celery
-#     environment:
-#         - DJANGO_PROJECT_NAME=familio
-#         - CELERY_BROKER_URL=amqp://user:password@rabbit.example.com/instance2
-#         - DJANGO_SETTINGS_MODULE=familio.settings.family2
-#         - SITE_NAME=family2
-#         - SITE_ID=2
-#         - SECRET_KEY=45
-#         - PHANTOMJS_USERNAME=user
-#         - PHANTOMJS_PASSWORD=password
-#         - POSTGRES_USER=djfu
-#         - POSTGRES_DB=djfdb
-#         - POSTGRES_PASSWORD=djf
-#         - POSTGRES_HOST=db
-#         - LANG=en_US.UTF-8
-#         - LC_ALL=en_US.UTF-8
-#     restart: always
-#     links:
-#         - db:db
-#     volumes_from:
-#         - unserefamilie_djangodata_1
 
 family1:
     image: unserefamilie_django
     environment:
         - DJANGO_PROJECT_NAME=familio
-        - CELERY_BROKER_URL=amqp://user:password@rabbit.example.com/instance1
+        - CELERY_BROKER_URL=amqp://rabbituser:abcd@rabbit.example.com/instance1
         - DJANGO_SETTINGS_MODULE=familio.settings.family1
         - SITE_NAME=family1
         - SITE_ID=1
@@ -96,35 +71,13 @@ family1:
         - LANG=en_US.UTF-8
         - LC_ALL=en_US.UTF-8
     restart: always
-    volumes_from:
-        - unserefamilie_djangodata_1
+    volumes:
+      - ./data/src/django-familio:/var/django/familio
+      - ./data/media:/var/django/media
     ports:
         - "127.0.0.1:8701:8000"
     links:
         - db:db
         - clamav:clamav
 
-# family2:
-#     image: unserefamilie_django
-#     environment:
-#         - DJANGO_PROJECT_NAME=familio
-#         - CELERY_BROKER_URL=amqp://user:password@rabbit.example.com/instance2
-#         - DJANGO_SETTINGS_MODULE=familio.settings.family2
-#         - SITE_NAME=family2
-#         - SITE_ID=2
-#         - SECRET_KEY=45
-#         - POSTGRES_USER=djfu
-#         - POSTGRES_DB=djfdb
-#         - POSTGRES_PASSWORD=djf
-#         - POSTGRES_HOST=db
-#         - LANG=en_US.UTF-8
-#         - LC_ALL=en_US.UTF-8
-#     restart: always
-#     volumes_from:
-#         - unserefamilie_djangodata_1
-#     ports:
-#         - "127.0.0.1:8702:8000"
-#     links:
-#         - db:db
-#         - clamav:clamav
 
